@@ -6,16 +6,19 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
+// Scraper is a structs used to extract Items from a document
 type Scraper struct {
 	f Fetcher
 }
 
+// NewScraper returns a new Scraper
 func NewScraper(f Fetcher) *Scraper {
 	return &Scraper{
 		f: f,
 	}
 }
 
+// Scrape extracts Items from a document using Extractors exts
 func (s *Scraper) Scrape(log AppLogger, exts Extractors) (int64, Items, error) {
 	var items Items
 

@@ -7,6 +7,7 @@ import (
 	"regexp"
 )
 
+// Product is a struct that wraps product attributes
 type Product struct {
 	Title           string   `json:"title"`
 	Size            string   `json:"size"`
@@ -15,11 +16,13 @@ type Product struct {
 	Description     string   `json:"description"`
 }
 
+// ProductScraper is a scraper used to scrape product details pages
 type ProductScraper struct {
 	scraper   *Scraper
 	extractor Extractor
 }
 
+// NewProductScraper returns a new ProductScraper
 func NewProductScraper(url string) (*ProductScraper, error) {
 	f, err := NewFetcher(url)
 	if err != nil {
@@ -40,6 +43,7 @@ func NewProductScraper(url string) (*ProductScraper, error) {
 	}, nil
 }
 
+// Scrape returns products found scraping the specified URL
 func (ps *ProductScraper) Scrape(log AppLogger) (*Product, error) {
 	length, items, err := ps.scraper.Scrape(log, Extractors{"products": ps.extractor})
 	if err != nil {

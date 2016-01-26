@@ -6,12 +6,13 @@ import (
 )
 
 const (
-	LogLevelFatal = iota
-	LogLevelError
-	LogLevelInfo
-	LogLevelDebug
+	logLevelFatal = iota
+	logLevelError
+	logLevelInfo
+	logLevelDebug
 )
 
+// AppLogger is an interface that wraps different log level logging methods
 type AppLogger interface {
 	Fatal(f string)
 	Error(f string)
@@ -31,20 +32,24 @@ func newAppLogger(level int) *applogger {
 	}
 }
 
+// Fatal logs fatal level logs
 func (l *applogger) Fatal(f string) {
-	l.output(LogLevelFatal, "FATAL", f)
+	l.output(logLevelFatal, "FATAL", f)
 }
 
+// Error logs error level logs
 func (l *applogger) Error(f string) {
-	l.output(LogLevelError, "ERROR", f)
+	l.output(logLevelError, "ERROR", f)
 }
 
+// Info logs info level logs
 func (l *applogger) Info(f string) {
-	l.output(LogLevelInfo, "INFO", f)
+	l.output(logLevelInfo, "INFO", f)
 }
 
+// Debug logs debug level logs
 func (l *applogger) Debug(f string) {
-	l.output(LogLevelDebug, "DEBUG", f)
+	l.output(logLevelDebug, "DEBUG", f)
 }
 
 func (l *applogger) output(level int, prefix string, f string) {
@@ -52,7 +57,7 @@ func (l *applogger) output(level int, prefix string, f string) {
 		l.log.Printf("# [%s] %s", prefix, f)
 	}
 
-	if level == LogLevelFatal {
+	if level == logLevelFatal {
 		os.Exit(1)
 	}
 }

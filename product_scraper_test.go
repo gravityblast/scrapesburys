@@ -11,7 +11,7 @@ func TestProductScraper(t *testing.T) {
 	require := require.New(t)
 	assert := assert.New(t)
 
-	log := newAppLogger(LogLevelFatal)
+	log := newAppLogger(logLevelFatal)
 	ps, err := NewProductScraper("/1.html")
 	require.Nil(err)
 

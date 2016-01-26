@@ -6,40 +6,48 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
+// DataExtractor is an interface that wraps simple exatractors behaviours used to extract text
 type DataExtractor interface {
 	Extract(*goquery.Selection) string
 }
 
+// DataExtractors is a collection of named DataExtractors
 type DataExtractors map[string]DataExtractor
 
-type textExtractor struct {
+// TextExtractor is an extractor used to extract text from a selection
+type TextExtractor struct {
 	Selector string
 }
 
-func NewTextExtractor(selector string) *textExtractor {
-	return &textExtractor{
+// NewTextExtractor returns a TextExtractor with a given selector
+func NewTextExtractor(selector string) *TextExtractor {
+	return &TextExtractor{
 		Selector: selector,
 	}
 }
 
-func (e *textExtractor) Extract(s *goquery.Selection) string {
+// Extract extracts text of elements returned querying with TextExtractor's selector
+func (e *TextExtractor) Extract(s *goquery.Selection) string {
 	text := s.Find(e.Selector).Text()
 	return strings.TrimSpace(text)
 }
 
-type attributeExtractor struct {
+// AttributeExtractor is an exatractor used to extract values from an element's attribute
+type AttributeExtractor struct {
 	Selector      string
 	AttributeName string
 }
 
-func NewAttributeExtractor(selector string, attributeName string) *attributeExtractor {
-	return &attributeExtractor{
+// NewAttributeExtractor returns a new AttributeExtractor
+func NewAttributeExtractor(selector string, attributeName string) *AttributeExtractor {
+	return &AttributeExtractor{
 		Selector:      selector,
 		AttributeName: attributeName,
 	}
 }
 
-func (e *attributeExtractor) Extract(s *goquery.Selection) string {
+// Extract extracts the value of a specific attribute
+func (e *AttributeExtractor) Extract(s *goquery.Selection) string {
 	v, _ := s.Find(e.Selector).Attr(e.AttributeName)
 	return v
 }

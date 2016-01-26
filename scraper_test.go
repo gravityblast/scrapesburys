@@ -11,7 +11,7 @@ func TestScraper(t *testing.T) {
 	assert := assert.New(t)
 	require := require.New(t)
 
-	log := newAppLogger(LogLevelFatal)
+	log := newAppLogger(logLevelFatal)
 	f := newTestHTTPFetcher("/hello.html")
 	s := NewScraper(f)
 

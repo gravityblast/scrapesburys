@@ -10,18 +10,19 @@ import (
 
 func main() {
 	var (
-		url           string
-		concurrency   int
-		logLevelError bool
-		logLevelInfo  bool
-		logLevelDebug bool
+		url         string
+		concurrency int
+		llError     bool
+		llInfo      bool
+		llDebug     bool
+		logLevel    int
 	)
 
 	flag.IntVar(&concurrency, "c", 1, "concurreny, min value is 1")
 	flag.StringVar(&url, "u", "", "the main URL")
-	flag.BoolVar(&logLevelError, "v", false, "log level error")
-	flag.BoolVar(&logLevelInfo, "vv", false, "log level info")
-	flag.BoolVar(&logLevelDebug, "vvv", false, "log level debug")
+	flag.BoolVar(&llError, "v", false, "log level error")
+	flag.BoolVar(&llInfo, "vv", false, "log level info")
+	flag.BoolVar(&llDebug, "vvv", false, "log level debug")
 	flag.Parse()
 
 	if url == "" {
@@ -41,15 +42,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	var logLevel int
-
 	switch {
-	case logLevelDebug:
-		logLevel = LogLevelDebug
-	case logLevelInfo:
-		logLevel = LogLevelInfo
-	case logLevelError:
-		logLevel = LogLevelError
+	case llDebug:
+		logLevel = logLevelDebug
+	case llInfo:
+		logLevel = logLevelInfo
+	case llError:
+		logLevel = logLevelError
 	}
 
 	appLog := newAppLogger(logLevel)

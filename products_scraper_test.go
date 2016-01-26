@@ -18,7 +18,7 @@ func TestProductsScraper(t *testing.T) {
 
 	defer ts.Close()
 
-	log := newAppLogger(LogLevelFatal)
+	log := newAppLogger(logLevelFatal)
 	ps, err := NewProductsScraper(fmt.Sprintf("%s/index.html", ts.URL))
 	require.Nil(err)
 	result, err := ps.Scrape(log, 1)

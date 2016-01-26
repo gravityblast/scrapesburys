@@ -7,6 +7,7 @@ import (
 	"sync"
 )
 
+// Result is the struct used to show data extracted frmo scrapers
 type Result struct {
 	sync.Mutex
 	Results     []*Product `json:"results"`
@@ -14,6 +15,7 @@ type Result struct {
 	TotalCached float64    `json:"total"`
 }
 
+// Add adds a product to the results slice
 func (r *Result) Add(product *Product) {
 	r.Lock()
 	r.Results = append(r.Results, product)
@@ -29,10 +31,13 @@ func newResult() *Result {
 	}
 }
 
+// ProductsScraper is a scraper that internally uses a ProductsListScraper to find details pages
+// and a ProductScraper for each URL found
 type ProductsScraper struct {
 	ListScraper *ProductsListScraper
 }
 
+// NewProductsScraper returns a new ProductsScraper
 func NewProductsScraper(url string) (*ProductsScraper, error) {
 	ls, err := NewProductsListScraper(url)
 	if err != nil {
@@ -44,6 +49,8 @@ func NewProductsScraper(url string) (*ProductsScraper, error) {
 	}, nil
 }
 
+// Scrape follows links found in the products list page and extracts products for each one of them.
+// It returns a Result object
 func (ps *ProductsScraper) Scrape(log AppLogger, concurrency int) (*Result, error) {
 	result := newResult()
 
