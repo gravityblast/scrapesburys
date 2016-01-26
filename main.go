@@ -1,3 +1,4 @@
+// scrapesburys scrapes product details from a Sainsbury's grocery index page
 package main
 
 import (
