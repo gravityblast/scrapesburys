@@ -11,11 +11,13 @@ import (
 func main() {
 	var (
 		url           string
+		concurrency   int
 		logLevelError bool
 		logLevelInfo  bool
 		logLevelDebug bool
 	)
 
+	flag.IntVar(&concurrency, "c", 1, "concurreny, min value is 1")
 	flag.StringVar(&url, "u", "", "the main URL")
 	flag.BoolVar(&logLevelError, "v", false, "log level error")
 	flag.BoolVar(&logLevelInfo, "vv", false, "log level info")
@@ -24,6 +26,12 @@ func main() {
 
 	if url == "" {
 		fmt.Printf("-u flag is mandatory\n\n")
+		flag.Usage()
+		os.Exit(1)
+	}
+
+	if concurrency < 1 {
+		fmt.Printf("invalid concurrency value\n\n")
 		flag.Usage()
 		os.Exit(1)
 	}
@@ -46,7 +54,7 @@ func main() {
 
 	appLog := newAppLogger(logLevel)
 
-	res, err := s.Scrape(appLog)
+	res, err := s.Scrape(appLog, concurrency)
 	if err != nil {
 		log.Fatal(err)
 	}

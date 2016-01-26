@@ -1,6 +1,11 @@
-.PHONY: test
+.PHONY: test vet
 
 GO=GO15VENDOREXPERIMENT=1 go
 
-test:
-	$(GO) test -v
+default: test
+
+vet:
+	$(GO) vet
+
+test: vet
+	$(GO) test -v -race
