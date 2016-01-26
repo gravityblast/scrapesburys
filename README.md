@@ -12,4 +12,4 @@
 ## Running tests
 
     cd $GOPATH/src/github.com/pilu/scrapesburys
-    go test -v
+    make
