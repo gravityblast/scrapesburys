@@ -11,5 +11,5 @@
 
 ## Running tests
 
-    cd $GOPATH/github.com/pilu/scrapesburys
+    cd $GOPATH/src/github.com/pilu/scrapesburys
     go test -v
